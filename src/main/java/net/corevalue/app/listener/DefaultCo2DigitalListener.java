@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultCo2DigitalListener implements GpioPinListenerDigital {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCo2DigitalListener.class);
+
     @Inject
     private Client<Device> client;
 

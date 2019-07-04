@@ -9,6 +9,5 @@ import javax.inject.Singleton;
 public class DefaultCo2AnalogListener implements GpioPinListenerAnalog {
     @Override
     public void handleGpioPinAnalogValueChangeEvent(GpioPinAnalogValueChangeEvent event) {
-
     }
 }

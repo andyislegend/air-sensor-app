@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.function.Function;
 
 @Getter
-public class Co2Sensor {
+public class Co2Sensor implements Sensor {
     private GpioPinDigitalInput gpioPinDigitalInput;
     private GpioPinAnalogInput gpioPinAnalogInput;
 
@@ -27,10 +27,12 @@ public class Co2Sensor {
         return gpioPinInput;
     }
 
+    @Override
     public void addDigitalGpioPinListener(GpioPinListenerDigital listener) {
         gpioPinDigitalInput.addListener(listener);
     }
 
+    @Override
     public void addAnalogGpioPinListener(GpioPinListenerAnalog listener) {
         gpioPinAnalogInput.addListener(listener);
     }

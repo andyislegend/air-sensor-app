@@ -4,11 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import picocli.CommandLine.Option;
 
-import javax.inject.Singleton;
-
 @Getter
 @Setter
-@Singleton
 public class DeviceOptions {
 
     @Option(names = "-registry_id", required = true)

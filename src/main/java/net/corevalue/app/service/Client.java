@@ -7,7 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public interface Client<T extends Device> {
 
-    void init(DeviceOptions options);
+    void initConnection(DeviceOptions options);
 
     void connect() throws MqttException;
 

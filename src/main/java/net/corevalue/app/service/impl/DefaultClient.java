@@ -15,14 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.util.Properties;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Singleton
 public class DefaultClient implements Client<Device> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClient.class);
-    private static final Lock MONITOR = new ReentrantLock();
-
     private MqttClient client;
     private String mqttTelemetryTopic;
     private MqttConnectOptions connectionOptions;
@@ -32,40 +28,40 @@ public class DefaultClient implements Client<Device> {
 
 
     @Override
-    public void sendMessage(MqttMessage message) throws Exception {
-        MONITOR.lock();
+    public synchronized void sendMessage(MqttMessage message) throws Exception {
         if (isTokenRefreshNeed()) {
             if (isConnected()) {
                 disconnect();
             }
             setToken(connectionOptions, deviceOptions);
+            LOGGER.info("Refreshed token...");
+            connect();
         }
-        connect();
         client.publish(mqttTelemetryTopic, message);
-        disconnect();
-        MONITOR.unlock();
     }
 
     @Override
-    public void setCallBack(Device device) {
+    public synchronized void setCallBack(Device device) {
         client.setCallback(device);
     }
 
     @Override
-    public void connect() throws MqttException {
+    public synchronized void connect() throws MqttException {
         client.connect(connectionOptions);
         connected = true;
+        LOGGER.info("Connection initiated...");
     }
 
     @Override
-    public void disconnect() throws MqttException {
+    public synchronized void disconnect() throws MqttException {
         client.disconnect();
         connected = false;
+        LOGGER.info("Disconnect...");
     }
 
 
     @Override
-    public void init(DeviceOptions deviceOptions) {
+    public synchronized void initConnection(DeviceOptions deviceOptions) {
         this.deviceOptions = deviceOptions;
         mqttTelemetryTopic = String.format("/devices/%s/events", deviceOptions.getGatewayId());
         String mqttServerAddress = String.format("ssl://%s:%s", deviceOptions.getMqttBridgeHostname(),
@@ -76,19 +72,20 @@ public class DefaultClient implements Client<Device> {
         connectionOptions = getConnectionProperties(deviceOptions);
         try {
             client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
+            connect();
         } catch (MqttException e) {
-            LOGGER.error("Can't init client: " + e);
+            LOGGER.error("Can't init connection: " + e);
         }
     }
 
     @Override
-    public boolean isTokenRefreshNeed() {
+    public synchronized boolean isTokenRefreshNeed() {
         long secsSinceRefresh = ((new DateTime()).getMillis() - tokenReceivingTime.getMillis()) / 1000;
         return secsSinceRefresh > (Cryptographer.TOKEN_EXPIRE_MINS * 60);
     }
 
     @Override
-    public boolean isConnected() {
+    public synchronized boolean isConnected() {
         return connected;
     }
 
