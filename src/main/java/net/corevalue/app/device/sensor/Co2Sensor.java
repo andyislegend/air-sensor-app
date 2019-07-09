@@ -1,9 +1,11 @@
 package net.corevalue.app.device.sensor;
 
 import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.event.GpioPinListenerAnalog;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import lombok.Getter;
+import net.corevalue.app.constant.AirVerdict;
+import net.corevalue.app.constant.PayloadField;
+import net.corevalue.app.constant.SensorType;
+import net.corevalue.app.device.data.SensorData;
 
 import java.util.function.Function;
 
@@ -27,13 +29,14 @@ public class Co2Sensor implements Sensor {
         return gpioPinInput;
     }
 
-    @Override
-    public void addDigitalGpioPinListener(GpioPinListenerDigital listener) {
-        gpioPinDigitalInput.addListener(listener);
-    }
 
     @Override
-    public void addAnalogGpioPinListener(GpioPinListenerAnalog listener) {
-        gpioPinAnalogInput.addListener(listener);
+    public SensorData getSensorData() {
+        SensorData sensorData = new SensorData();
+        sensorData.setSensorType(SensorType.CO2_SENSOR);
+        AirVerdict airVerdict = gpioPinDigitalInput.getState().isHigh() ? AirVerdict.CO2_NORMAL : AirVerdict.CO2_EXCEED;
+        sensorData.putData(PayloadField.CO2_AIR_VERDICT, airVerdict.getValue());
+        sensorData.putData(PayloadField.CO2_QUANTITY, "not implemented yet!");
+        return sensorData;
     }
 }

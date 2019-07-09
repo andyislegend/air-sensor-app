@@ -3,11 +3,10 @@ package net.corevalue.app.constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
 @AllArgsConstructor
-public enum AirVerdict {
-    CO2_EXCEED("CO2 exceed limits"),
-    CO2_NORMAL("CO2 within acceptable limits.");
+@Getter
+public enum PayloadField {
+    CO2_SENSOR("Co2 sensor"), CO2_AIR_VERDICT("CO2 level verdict"), CO2_QUANTITY("Co2 quantity");
 
     private String value;
 }

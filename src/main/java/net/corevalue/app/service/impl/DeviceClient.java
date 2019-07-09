@@ -17,8 +17,8 @@ import javax.inject.Singleton;
 import java.util.Properties;
 
 @Singleton
-public class DefaultClient implements Client<Device> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClient.class);
+public class DeviceClient implements Client<Device> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeviceClient.class);
     private MqttClient client;
     private String mqttTelemetryTopic;
     private MqttConnectOptions connectionOptions;
