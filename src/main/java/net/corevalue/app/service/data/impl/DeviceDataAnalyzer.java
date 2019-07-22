@@ -1,9 +1,9 @@
-package net.corevalue.app.service.impl;
+package net.corevalue.app.service.data.impl;
 
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
 import net.corevalue.app.device.data.SensorData;
-import net.corevalue.app.service.DataAnalyzer;
+import net.corevalue.app.service.data.DataAnalyzer;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONObject;
 

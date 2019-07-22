@@ -1,9 +1,10 @@
 package net.corevalue.app;
 
 import io.micronaut.configuration.picocli.PicocliRunner;
+import net.corevalue.app.client.Client;
+import net.corevalue.app.client.impl.MqqtDeviceClient;
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
-import net.corevalue.app.service.client.Client;
 import net.corevalue.app.service.data.DataAnalyzer;
 import net.corevalue.app.service.factory.DeviceCreator;
 import net.corevalue.app.util.CliArguments;
@@ -26,9 +27,6 @@ public class Application implements Runnable {
     private DeviceCreator deviceCreator;
 
     @Inject
-    private Client<Device> client;
-
-    @Inject
     private DataAnalyzer<Device, MqttMessage> dataAnalyzer;
 
     @ArgGroup(exclusive = false)
@@ -41,6 +39,7 @@ public class Application implements Runnable {
     @Override
     public void run() {
         Device device = deviceCreator.createDevice(cliArguments.getDeviceType());
+        Client<Device> client = new MqqtDeviceClient();
         client.initConnection(cliArguments);
         client.setCallBack(device);
         while (device.isEnabled()) {

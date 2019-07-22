@@ -6,19 +6,16 @@ import net.corevalue.app.device.sensor.Sensor;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public interface Device extends MqttCallback {
 
-    void setReadStrategyMap(Map<SensorType, Supplier<SensorData>> readStrategyMap);
-
     SensorData readDeviceData(SensorType sensorType);
 
-    Sensor getCo2Sensor();
+    void setSensorMap(Map<SensorType, Sensor> sensorMap);
 
-    Sensor getHumiditySensor();
+    Map<SensorType, Sensor> getSensorMap();
 
-    Sensor getTemperatureSensor();
+    Sensor getSensor(SensorType sensorType);
 
-    Sensor getLightSensor();
+    boolean isEnabled();
 }

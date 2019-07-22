@@ -4,5 +4,5 @@ import net.corevalue.app.device.data.SensorData;
 
 public interface Sensor {
 
-    SensorData getSensorData();
+    SensorData readSensorData();
 }

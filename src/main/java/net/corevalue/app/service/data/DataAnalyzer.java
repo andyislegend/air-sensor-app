@@ -1,4 +1,4 @@
-package net.corevalue.app.service;
+package net.corevalue.app.service.data;
 
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
