@@ -3,9 +3,11 @@ package net.corevalue.app;
 import io.micronaut.configuration.picocli.PicocliRunner;
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
-import net.corevalue.app.device.DeviceOptions;
-import net.corevalue.app.service.Client;
-import net.corevalue.app.service.DataAnalyzer;
+import net.corevalue.app.service.client.Client;
+import net.corevalue.app.service.data.DataAnalyzer;
+import net.corevalue.app.service.factory.DeviceCreator;
+import net.corevalue.app.util.CliArguments;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,9 @@ import javax.inject.Inject;
 @Command(name = "air-sensor-app", mixinStandardHelpOptions = true)
 public class Application implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-    private static final int TIMEOUT = 5000;
 
     @Inject
-    private Device device;
+    private DeviceCreator deviceCreator;
 
     @Inject
     private Client<Device> client;
@@ -31,7 +32,7 @@ public class Application implements Runnable {
     private DataAnalyzer<Device, MqttMessage> dataAnalyzer;
 
     @ArgGroup(exclusive = false)
-    private DeviceOptions options;
+    private CliArguments cliArguments;
 
     public static void main(String[] args) throws Exception {
         PicocliRunner.run(Application.class, args);
@@ -39,16 +40,22 @@ public class Application implements Runnable {
 
     @Override
     public void run() {
-        client.initConnection(options);
+        Device device = deviceCreator.createDevice(cliArguments.getDeviceType());
+        client.initConnection(cliArguments);
         client.setCallBack(device);
-        while (true) {
+        while (device.isEnabled()) {
+            MqttMessage mqttMessage = dataAnalyzer.prepareDeviceData(device, SensorType.CO2_SENSOR);
             try {
-                MqttMessage mqttMessage = dataAnalyzer.prepareDeviceData(device, SensorType.CO2_SENSOR);
                 client.sendMessage(mqttMessage);
-                Thread.sleep(TIMEOUT);
+                Thread.sleep(cliArguments.getSendTimeout());
             } catch (Exception e) {
-                LOGGER.error("can't send message: " + e);
+                LOGGER.error("Can't send message: " + e);
             }
+        }
+        try {
+            client.disconnect();
+        } catch (MqttException e) {
+            LOGGER.error("Can't disconnect device: " + e);
         }
     }
 }

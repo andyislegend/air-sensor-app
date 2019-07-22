@@ -1,12 +1,11 @@
-package net.corevalue.app.device;
+package net.corevalue.app.util;
 
 import lombok.Getter;
-import lombok.Setter;
+import net.corevalue.app.constant.DeviceType;
 import picocli.CommandLine.Option;
 
 @Getter
-@Setter
-public class DeviceOptions {
+public class CliArguments {
 
     @Option(names = "-registry_id", required = true)
     private String registryId;
@@ -28,4 +27,10 @@ public class DeviceOptions {
 
     @Option(names = "-mqtt_bridge_port", required = true)
     private int mqttBridgePort;
+
+    @Option(names = "-send_timeout", required = true)
+    private int sendTimeout;
+
+    @Option(names = "-device_type", required = true)
+    private DeviceType deviceType;
 }
