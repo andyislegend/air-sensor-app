@@ -5,5 +5,5 @@ import net.corevalue.app.device.Device;
 
 public interface DeviceCreator {
 
-    Device createDevice(DeviceType deviceType);
+    Device createDevice(DeviceType deviceType) throws Exception;
 }

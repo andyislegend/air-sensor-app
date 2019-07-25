@@ -61,7 +61,7 @@ public class MqqtDeviceClient implements Client<Device> {
 
 
     @Override
-    public void initConnection(CliArguments cliArguments) {
+    public void initConnection(CliArguments cliArguments) throws Exception {
         this.cliArguments = cliArguments;
         mqttTelemetryTopic = String.format("/devices/%s/events", cliArguments.getGatewayId());
         String mqttServerAddress = String.format("ssl://%s:%s", cliArguments.getMqttBridgeHostname(),
@@ -70,12 +70,8 @@ public class MqqtDeviceClient implements Client<Device> {
                 cliArguments.getProjectId(), cliArguments.getCloudRegion(), cliArguments.getRegistryId(),
                 cliArguments.getGatewayId());
         connectionOptions = getConnectionProperties(cliArguments);
-        try {
-            client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
-            connect();
-        } catch (MqttException e) {
-            LOGGER.error("Can't init connection: " + e);
-        }
+        client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
+        connect();
     }
 
     @Override
@@ -84,18 +80,14 @@ public class MqqtDeviceClient implements Client<Device> {
         return secsSinceRefresh > (Cryptographer.TOKEN_EXPIRE_MINS * 60);
     }
 
-    private MqttConnectOptions getConnectionProperties(CliArguments cliArguments) {
+    private MqttConnectOptions getConnectionProperties(CliArguments cliArguments) throws Exception {
         MqttConnectOptions connectOptions = new MqttConnectOptions();
         connectOptions.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
         Properties sslProps = new Properties();
         sslProps.setProperty("com.ibm.ssl.protocol", "TLSv1.2");
         connectOptions.setSSLProperties(sslProps);
         connectOptions.setUserName("unused");
-        try {
-            setToken(connectOptions, cliArguments);
-        } catch (Exception e) {
-            LOGGER.error("Can't set password: " + e);
-        }
+        setToken(connectOptions, cliArguments);
         return connectOptions;
     }
 

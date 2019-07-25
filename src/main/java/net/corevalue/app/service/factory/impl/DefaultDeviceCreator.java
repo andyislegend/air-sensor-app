@@ -25,7 +25,7 @@ public class DefaultDeviceCreator implements DeviceCreator {
     }
 
     @Override
-    public Device createDevice(DeviceType deviceType) {
+    public Device createDevice(DeviceType deviceType) throws Exception {
         DeviceAbstractFactory deviceFactory = factoryMap.get(deviceType);
         Device device = deviceFactory.createDevice();
         Map<SensorType, Sensor> sensorMap = initSensorMap(deviceFactory);
@@ -33,7 +33,7 @@ public class DefaultDeviceCreator implements DeviceCreator {
         return device;
     }
 
-    private Map<SensorType, Sensor> initSensorMap(DeviceAbstractFactory deviceFactory) {
+    private Map<SensorType, Sensor> initSensorMap(DeviceAbstractFactory deviceFactory) throws Exception {
         Map<SensorType, Sensor> sensorMap = new HashMap<>();
         sensorMap.put(SensorType.CO2_SENSOR, deviceFactory.createCo2Sensor());
         return sensorMap;

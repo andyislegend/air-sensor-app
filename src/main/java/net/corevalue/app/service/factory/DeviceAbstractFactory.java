@@ -6,7 +6,7 @@ import net.corevalue.app.device.sensor.Sensor;
 public interface DeviceAbstractFactory {
     Device createDevice();
 
-    Sensor createCo2Sensor();
+    Sensor createCo2Sensor() throws Exception;
 
     Sensor createHumiditySensor();
 

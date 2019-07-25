@@ -8,6 +8,7 @@ import net.corevalue.app.device.Device;
 import net.corevalue.app.service.data.DataAnalyzer;
 import net.corevalue.app.service.factory.DeviceCreator;
 import net.corevalue.app.util.CliArguments;
+import net.corevalue.app.util.SystemUtility;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
@@ -38,11 +39,16 @@ public class Application implements Runnable {
 
     @Override
     public void run() {
-        Device device = deviceCreator.createDevice(cliArguments.getDeviceType());
         Client<Device> client = new MqqtDeviceClient();
-        client.initConnection(cliArguments);
-        client.setCallBack(device);
-        while (device.isEnabled()) {
+        Device device = null;
+        try {
+            device = deviceCreator.createDevice(cliArguments.getDeviceType());
+            client.initConnection(cliArguments);
+            client.setCallBack(device);
+        } catch (Exception e) {
+            SystemUtility.emergencySystemShutdown("Can't init client or device", e);
+        }
+        while (device != null && device.isEnabled()) {
             MqttMessage mqttMessage = dataAnalyzer.prepareDeviceData(device, SensorType.CO2_SENSOR);
             try {
                 client.sendMessage(mqttMessage);
