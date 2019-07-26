@@ -7,7 +7,6 @@ import com.pi4j.io.i2c.I2CFactory;
 import lombok.Data;
 import net.corevalue.app.constant.AirVerdict;
 import net.corevalue.app.constant.PayloadField;
-import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.data.SensorData;
 import net.corevalue.app.util.AdcReader;
 
@@ -39,7 +38,7 @@ public class Mq7Co2Sensor implements Sensor {
     @Override
     public SensorData readSensorData() {
         SensorData sensorData = new SensorData();
-        sensorData.setSensorType(SensorType.CO2_SENSOR);
+        sensorData.setTitle(PayloadField.CO2_SENSOR);
         AirVerdict airVerdict = co2LevelPin.getState().isHigh() ? AirVerdict.CO2_NORMAL : AirVerdict.CO2_EXCEED;
         sensorData.putData(PayloadField.CO2_AIR_VERDICT, airVerdict.getValue());
         String co2Quantity = String.format("%.2f ppm", AdcReader.readPpm(i2cDevice));

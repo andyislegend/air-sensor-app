@@ -22,6 +22,6 @@ public class DeviceDataAnalyzer implements DataAnalyzer<Device, MqttMessage> {
     }
 
     private void fillPayload(SensorData sensorData, JSONObject payload) {
-        payload.put(sensorData.getSensorType().name(), sensorData.getData());
+        payload.put(sensorData.getTitle().getValue(), sensorData.getData());
     }
 }
