@@ -1,11 +1,11 @@
-package net.corevalue.app.service.factory.impl;
+package net.corevalue.app.service.factory.device.impl;
 
 import net.corevalue.app.constant.DeviceType;
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
 import net.corevalue.app.device.sensor.Sensor;
-import net.corevalue.app.service.factory.DeviceAbstractFactory;
-import net.corevalue.app.service.factory.DeviceCreator;
+import net.corevalue.app.service.factory.device.DeviceAbstractFactory;
+import net.corevalue.app.service.factory.device.DeviceConstructor;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public class DefaultDeviceCreator implements DeviceCreator {
+public class DefaultDeviceConstructor implements DeviceConstructor {
 
     private Map<DeviceType, DeviceAbstractFactory> factoryMap;
 
@@ -25,7 +25,7 @@ public class DefaultDeviceCreator implements DeviceCreator {
     }
 
     @Override
-    public Device createDevice(DeviceType deviceType) throws Exception {
+    public Device constructDevice(DeviceType deviceType) throws Exception {
         DeviceAbstractFactory deviceFactory = factoryMap.get(deviceType);
         Device device = deviceFactory.createDevice();
         Map<SensorType, Sensor> sensorMap = initSensorMap(deviceFactory);

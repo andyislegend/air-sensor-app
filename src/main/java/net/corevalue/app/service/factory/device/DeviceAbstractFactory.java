@@ -1,4 +1,4 @@
-package net.corevalue.app.service.factory;
+package net.corevalue.app.service.factory.device;
 
 import net.corevalue.app.device.Device;
 import net.corevalue.app.device.sensor.Sensor;
