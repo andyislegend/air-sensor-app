@@ -3,7 +3,7 @@ package net.corevalue.app.device.data;
 import lombok.Data;
 import net.corevalue.app.constant.PayloadField;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
@@ -12,7 +12,7 @@ public class SensorData {
     private Map<PayloadField, String> data;
 
     public SensorData() {
-        data = new HashMap<>();
+        data = new LinkedHashMap<>();
     }
 
     public void putData(PayloadField title, String value) {
