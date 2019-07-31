@@ -13,7 +13,7 @@ import java.util.Arrays;
 @Singleton
 public class DeviceDataAnalyzer implements DataAnalyzer<Device, MqttMessage> {
     @Override
-    public MqttMessage prepareDeviceData(Device device, SensorType... sensorTypes) {
+    public MqttMessage getDeviceData(Device device, SensorType... sensorTypes) {
         JSONObject payload = new JSONObject();
         Arrays.asList(sensorTypes).forEach(sensorType -> fillPayload(device.readDeviceData(sensorType), payload));
         MqttMessage message = new MqttMessage(payload.toString().getBytes());

@@ -16,7 +16,7 @@ public class AdcReader {
         try {
             raw_adc = device.read();
         } catch (IOException e) {
-            LOGGER.error("Can't adc value: " + e);
+            LOGGER.error("Can't read adc value: " + e);
         }
         return ((10000.0 / 4096.0) * raw_adc) + 200;
     }

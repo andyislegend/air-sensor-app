@@ -3,7 +3,7 @@ package net.corevalue.app.client.impl;
 import lombok.Getter;
 import net.corevalue.app.client.Client;
 import net.corevalue.app.device.Device;
-import net.corevalue.app.util.CliArguments;
+import net.corevalue.app.util.ConnectionArguments;
 import net.corevalue.app.util.Cryptographer;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -21,7 +21,7 @@ public class MqqtDeviceClient implements Client<Device> {
     private MqttClient client;
     private String mqttTelemetryTopic;
     private MqttConnectOptions connectionOptions;
-    private CliArguments cliArguments;
+    private ConnectionArguments connectionArguments;
     private DateTime tokenReceivingTime;
     @Getter
     private boolean connected;
@@ -33,7 +33,7 @@ public class MqqtDeviceClient implements Client<Device> {
             if (isConnected()) {
                 disconnect();
             }
-            setToken(connectionOptions, cliArguments);
+            setToken(connectionOptions, connectionArguments);
             LOGGER.info("Refreshed token...");
             connect();
         }
@@ -61,15 +61,15 @@ public class MqqtDeviceClient implements Client<Device> {
 
 
     @Override
-    public void initConnection(CliArguments cliArguments) throws Exception {
-        this.cliArguments = cliArguments;
-        mqttTelemetryTopic = String.format("/devices/%s/events", cliArguments.getGatewayId());
-        String mqttServerAddress = String.format("ssl://%s:%s", cliArguments.getMqttBridgeHostname(),
-                cliArguments.getMqttBridgePort());
+    public void initConnection(ConnectionArguments connectionArguments) throws Exception {
+        this.connectionArguments = connectionArguments;
+        mqttTelemetryTopic = String.format("/devices/%s/events", connectionArguments.getGatewayId());
+        String mqttServerAddress = String.format("ssl://%s:%s", connectionArguments.getHostName(),
+                connectionArguments.getPort());
         String mqttClientId = String.format("projects/%s/locations/%s/registries/%s/devices/%s",
-                cliArguments.getProjectId(), cliArguments.getCloudRegion(), cliArguments.getRegistryId(),
-                cliArguments.getGatewayId());
-        connectionOptions = getConnectionProperties(cliArguments);
+                connectionArguments.getProjectId(), connectionArguments.getCloudRegion(), connectionArguments.getRegistryId(),
+                connectionArguments.getGatewayId());
+        connectionOptions = getConnectionProperties(connectionArguments);
         client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
         connect();
     }
@@ -80,20 +80,20 @@ public class MqqtDeviceClient implements Client<Device> {
         return secsSinceRefresh > (Cryptographer.TOKEN_EXPIRE_MINS * 60);
     }
 
-    private MqttConnectOptions getConnectionProperties(CliArguments cliArguments) throws Exception {
+    private MqttConnectOptions getConnectionProperties(ConnectionArguments connectionArguments) throws Exception {
         MqttConnectOptions connectOptions = new MqttConnectOptions();
         connectOptions.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
         Properties sslProps = new Properties();
         sslProps.setProperty("com.ibm.ssl.protocol", "TLSv1.2");
         connectOptions.setSSLProperties(sslProps);
         connectOptions.setUserName("unused");
-        setToken(connectOptions, cliArguments);
+        setToken(connectOptions, connectionArguments);
         return connectOptions;
     }
 
-    private void setToken(MqttConnectOptions connectOptions, CliArguments cliArguments) throws Exception {
-        connectOptions.setPassword(Cryptographer.createRSAToken(cliArguments.getProjectId(),
-                cliArguments.getPrivateKeyFile()).toCharArray());
+    private void setToken(MqttConnectOptions connectOptions, ConnectionArguments connectionArguments) throws Exception {
+        connectOptions.setPassword(Cryptographer.createRSAToken(connectionArguments.getProjectId(),
+                connectionArguments.getPrivateKeyFile()).toCharArray());
         tokenReceivingTime = new DateTime();
     }
 }

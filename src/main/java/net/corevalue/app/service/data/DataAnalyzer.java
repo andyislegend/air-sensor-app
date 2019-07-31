@@ -6,5 +6,5 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public interface DataAnalyzer<T extends Device, R extends MqttMessage> {
 
-    R prepareDeviceData(T device, SensorType... sensorTypes);
+    R getDeviceData(T device, SensorType... sensorTypes);
 }

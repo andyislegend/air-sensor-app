@@ -1,4 +1,4 @@
-package net.corevalue.app.service.factory.impl;
+package net.corevalue.app.service.factory.device.impl;
 
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.i2c.I2CFactory;
@@ -6,7 +6,7 @@ import net.corevalue.app.device.Device;
 import net.corevalue.app.device.Raspberry;
 import net.corevalue.app.device.sensor.Mq7Co2Sensor;
 import net.corevalue.app.device.sensor.Sensor;
-import net.corevalue.app.service.factory.DeviceAbstractFactory;
+import net.corevalue.app.service.factory.device.DeviceAbstractFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Singleton;
