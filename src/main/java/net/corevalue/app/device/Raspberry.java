@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-//TODO: add another sensors
-//TODO: add cloud-device configuration
-
 @Data
 public class Raspberry implements Device {
     private static final Logger LOGGER = LoggerFactory.getLogger(Raspberry.class);

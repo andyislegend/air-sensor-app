@@ -68,9 +68,11 @@ public class MqqtDeviceClient implements Client<Device, MqttMessage> {
         String mqttClientId = String.format("projects/%s/locations/%s/registries/%s/devices/%s",
                 connectionArguments.getProjectId(), connectionArguments.getCloudRegion(), connectionArguments.getRegistryId(),
                 connectionArguments.getGatewayId());
+        String commandTopic = String.format("/devices/%s/commands/#", connectionArguments.getGatewayId());
         connectionOptions = getConnectionProperties(connectionArguments);
         client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
         connect();
+        client.subscribe(commandTopic);
     }
 
     @Override
