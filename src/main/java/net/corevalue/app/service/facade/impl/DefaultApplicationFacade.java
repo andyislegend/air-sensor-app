@@ -21,14 +21,19 @@ import javax.inject.Singleton;
 public class DefaultApplicationFacade implements ApplicationFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultApplicationFacade.class);
 
-    @Inject
-    private DeviceConstructor deviceConstructor;
+    private final DeviceConstructor deviceConstructor;
+
+    private final ClientConstructor<Device, Object> clientConstructor;
+
+    private final DataAnalyzerConstructor<Device, Object> dataAnalyzerConstructor;
 
     @Inject
-    private ClientConstructor<Device, Object> clientConstructor;
-
-    @Inject
-    private DataAnalyzerConstructor<Device, Object> dataAnalyzerConstructor;
+    public DefaultApplicationFacade(DeviceConstructor deviceConstructor, ClientConstructor<Device, Object> clientConstructor,
+                                    DataAnalyzerConstructor<Device, Object> dataAnalyzerConstructor) {
+        this.deviceConstructor = deviceConstructor;
+        this.clientConstructor = clientConstructor;
+        this.dataAnalyzerConstructor = dataAnalyzerConstructor;
+    }
 
     public void startApplication(CliArguments cliArguments) {
         Device device = null;

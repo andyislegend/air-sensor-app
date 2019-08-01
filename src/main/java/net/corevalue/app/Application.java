@@ -11,8 +11,12 @@ import javax.inject.Inject;
 @Command(name = "air-sensor-app", mixinStandardHelpOptions = true)
 public class Application implements Runnable {
 
+    private final ApplicationFacade applicationFacade;
+
     @Inject
-    private ApplicationFacade applicationFacade;
+    public Application(ApplicationFacade applicationFacade) {
+        this.applicationFacade = applicationFacade;
+    }
 
     @ArgGroup(exclusive = false)
     private CliArguments cliArguments;
