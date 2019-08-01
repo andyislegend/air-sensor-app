@@ -13,6 +13,8 @@
     <joda.time.version>2.10.2</joda.time.version>
     <jjwt.version>0.7.0</jjwt.version>
     <json.version>20180813</json.version>
+    <picocli.version>4.0.0-beta-2</picocli.version>
+    <ch.qos.logback.version>1.2.3</ch.qos.logback.version>
     <exec.mainClass>net.corevalue.app.Application</exec.mainClass>
   </properties>
   <repositories>
@@ -51,7 +53,7 @@
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.0.0-beta-2</version>
+      <version>${picocli.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -77,8 +79,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
-      <scope>runtime</scope>
+      <version>${ch.qos.logback.version}</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut</groupId>
