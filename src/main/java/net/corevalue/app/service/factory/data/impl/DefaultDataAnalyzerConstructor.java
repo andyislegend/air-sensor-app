@@ -8,6 +8,7 @@ import net.corevalue.app.service.factory.data.DataAnalyzerConstructor;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,9 @@ public class DefaultDataAnalyzerConstructor implements DataAnalyzerConstructor<D
 
     @PostConstruct
     public void init(@Named("MqttDeviceDataAnalyzer") DataAnalyzer<Device, Object> mqqtAnalyzer) {
-        analyzerMap = new HashMap<>();
-        analyzerMap.put(ClientType.MQTT, mqqtAnalyzer);
+        Map<ClientType, DataAnalyzer<Device, Object>> dataAnalyzerMap = new HashMap<>();
+        dataAnalyzerMap.put(ClientType.MQTT, mqqtAnalyzer);
+        analyzerMap = Collections.unmodifiableMap(dataAnalyzerMap);
     }
 
     @Override

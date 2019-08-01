@@ -10,6 +10,7 @@ import net.corevalue.app.service.factory.device.DeviceConstructor;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +21,9 @@ public class DefaultDeviceConstructor implements DeviceConstructor {
 
     @PostConstruct
     public void init(@Named("RaspberryFactory") DeviceAbstractFactory raspFactory) {
-        factoryMap = new HashMap<>();
-        factoryMap.put(DeviceType.RASPBERRY, raspFactory);
+        Map<DeviceType, DeviceAbstractFactory> deviceAbstractFactoryMap = new HashMap<>();
+        deviceAbstractFactoryMap.put(DeviceType.RASPBERRY, raspFactory);
+        factoryMap = Collections.unmodifiableMap(deviceAbstractFactoryMap);
     }
 
     @Override

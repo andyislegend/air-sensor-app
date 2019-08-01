@@ -9,6 +9,7 @@ import net.corevalue.app.util.ConnectionArguments;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,9 @@ public class DefaultClientConstructor implements ClientConstructor<Device, Objec
 
     @PostConstruct
     public void init(@Named("MqttClientCreator") ClientCreator<Device, Object> mqttClientCreator) {
-        creatorMap = new HashMap<>();
-        creatorMap.put(ClientType.MQTT, mqttClientCreator);
+        Map<ClientType, ClientCreator<Device, Object>> clientCreatorMap = new HashMap<>();
+        clientCreatorMap.put(ClientType.MQTT, mqttClientCreator);
+        creatorMap = Collections.unmodifiableMap(clientCreatorMap);
     }
 
     @Override
