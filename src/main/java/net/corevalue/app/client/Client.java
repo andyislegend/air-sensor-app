@@ -2,18 +2,16 @@ package net.corevalue.app.client;
 
 import net.corevalue.app.device.Device;
 import net.corevalue.app.util.ConnectionArguments;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public interface Client<T extends Device> {
+public interface Client<T extends Device, S> {
 
     void initConnection(ConnectionArguments connectionArguments) throws Exception;
 
-    void connect() throws MqttException;
+    void connect() throws Exception;
 
-    void disconnect() throws MqttException;
+    void disconnect() throws Exception;
 
-    void sendMessage(MqttMessage message) throws Exception;
+    void sendMessage(S message) throws Exception;
 
     void setCallBack(T device);
 

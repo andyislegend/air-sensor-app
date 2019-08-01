@@ -3,13 +3,12 @@ package net.corevalue.app.service.facade.impl;
 import net.corevalue.app.client.Client;
 import net.corevalue.app.constant.SensorType;
 import net.corevalue.app.device.Device;
-import net.corevalue.app.service.data.DataAnalyzer;
 import net.corevalue.app.service.facade.ApplicationFacade;
 import net.corevalue.app.service.factory.client.ClientConstructor;
+import net.corevalue.app.service.factory.data.DataAnalyzer;
+import net.corevalue.app.service.factory.data.DataAnalyzerConstructor;
 import net.corevalue.app.service.factory.device.DeviceConstructor;
 import net.corevalue.app.util.CliArguments;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +25,15 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     private DeviceConstructor deviceConstructor;
 
     @Inject
-    private ClientConstructor<Device> clientConstructor;
+    private ClientConstructor<Device, Object> clientConstructor;
 
     @Inject
-    private DataAnalyzer<Device, MqttMessage> dataAnalyzer;
+    private DataAnalyzerConstructor<Device, Object> dataAnalyzerConstructor;
 
     public void startApplication(CliArguments cliArguments) {
         Device device = null;
-        Client<Device> client = null;
+        Client<Device, Object> client = null;
+        DataAnalyzer<Device, Object> dataAnalyzer = dataAnalyzerConstructor.constructDataAnalyzer(cliArguments.getClientType());
         try {
             device = deviceConstructor.constructDevice(cliArguments.getDeviceType());
             client = clientConstructor.constructClient(cliArguments.getClientType(), cliArguments.getConnectionArguments(), device);
@@ -42,9 +42,9 @@ public class DefaultApplicationFacade implements ApplicationFacade {
             System.exit(-1);
         }
         while (device.isEnabled()) {
-            MqttMessage mqttMessage = dataAnalyzer.getDeviceData(device, SensorType.CO2_SENSOR);
+            Object message = dataAnalyzer.getDeviceData(device, SensorType.CO2_SENSOR);
             try {
-                client.sendMessage(mqttMessage);
+                client.sendMessage(message);
                 Thread.sleep(cliArguments.getSendTimeout());
             } catch (Exception e) {
                 LOGGER.error("Can't send message: " + e);
@@ -52,7 +52,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         }
         try {
             client.disconnect();
-        } catch (MqttException e) {
+        } catch (Exception e) {
             LOGGER.error("Can't disconnect device: " + e);
         }
     }

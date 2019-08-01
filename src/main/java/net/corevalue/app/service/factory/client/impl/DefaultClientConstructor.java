@@ -12,19 +12,19 @@ import javax.inject.Named;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultClientConstructor implements ClientConstructor<Device> {
+public class DefaultClientConstructor implements ClientConstructor<Device, Object> {
 
-    private Map<ClientType, ClientCreator<Device>> creatorMap;
+    private Map<ClientType, ClientCreator<Device, Object>> creatorMap;
 
     @PostConstruct
-    public void init(@Named("MqttClientCreator") ClientCreator<Device> mqttClientCreator) {
+    public void init(@Named("MqttClientCreator") ClientCreator<Device, Object> mqttClientCreator) {
         creatorMap = new HashMap<>();
         creatorMap.put(ClientType.MQTT, mqttClientCreator);
     }
 
     @Override
-    public Client<Device> constructClient(ClientType clientType, ConnectionArguments connectionArguments, Device device) throws Exception {
-        ClientCreator<Device> clientCreator = creatorMap.get(clientType);
+    public Client<Device, Object> constructClient(ClientType clientType, ConnectionArguments connectionArguments, Device device) throws Exception {
+        ClientCreator<Device, Object> clientCreator = creatorMap.get(clientType);
         return clientCreator.createClient(connectionArguments, device);
     }
 }

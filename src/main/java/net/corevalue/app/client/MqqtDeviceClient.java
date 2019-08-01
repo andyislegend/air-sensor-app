@@ -1,7 +1,6 @@
-package net.corevalue.app.client.impl;
+package net.corevalue.app.client;
 
 import lombok.Getter;
-import net.corevalue.app.client.Client;
 import net.corevalue.app.device.Device;
 import net.corevalue.app.util.ConnectionArguments;
 import net.corevalue.app.util.Cryptographer;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
-public class MqqtDeviceClient implements Client<Device> {
+public class MqqtDeviceClient implements Client<Device, MqttMessage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(MqqtDeviceClient.class);
     private MqttClient client;
     private String mqttTelemetryTopic;

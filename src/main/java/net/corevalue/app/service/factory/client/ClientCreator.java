@@ -4,14 +4,14 @@ import net.corevalue.app.client.Client;
 import net.corevalue.app.device.Device;
 import net.corevalue.app.util.ConnectionArguments;
 
-public abstract class ClientCreator<T extends Device> {
+public abstract class ClientCreator<T extends Device, S> {
 
-    public Client<T> createClient(ConnectionArguments connectionArguments, T device) throws Exception {
-        Client<T> client = createConcreteClient();
+    public Client<T, S> createClient(ConnectionArguments connectionArguments, T device) throws Exception {
+        Client<T, S> client = createConcreteClient();
         client.initConnection(connectionArguments);
         client.setCallBack(device);
         return client;
     }
 
-    protected abstract Client<T> createConcreteClient();
+    protected abstract Client<T, S> createConcreteClient();
 }

@@ -5,7 +5,7 @@ import net.corevalue.app.constant.ClientType;
 import net.corevalue.app.device.Device;
 import net.corevalue.app.util.ConnectionArguments;
 
-public interface ClientConstructor<T extends Device> {
+public interface ClientConstructor<T extends Device, S> {
 
-    Client<T> constructClient(ClientType clientType, ConnectionArguments connectionArguments, T device) throws Exception;
+    Client<T, S> constructClient(ClientType clientType, ConnectionArguments connectionArguments, T device) throws Exception;
 }
