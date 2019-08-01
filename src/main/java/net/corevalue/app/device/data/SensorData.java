@@ -1,13 +1,15 @@
 package net.corevalue.app.device.data;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.corevalue.app.constant.PayloadField;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Data
+@Getter
 public class SensorData {
+    @Setter
     private PayloadField title;
     private Map<PayloadField, String> data;
 
