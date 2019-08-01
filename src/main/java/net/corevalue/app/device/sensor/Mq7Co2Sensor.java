@@ -23,7 +23,6 @@ public class Mq7Co2Sensor implements Sensor {
         this.co2LevelPin = initDigitalInputPin(co2LevelPin, gpioController);
         I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1);
         i2cDevice = bus.getDevice(DEVICE_ADDRESS);
-
     }
 
     private GpioPinDigitalInput initDigitalInputPin(Pin pin, GpioController gpioController) {
