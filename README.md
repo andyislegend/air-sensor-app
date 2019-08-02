@@ -55,7 +55,14 @@ sudo java -jar app_name.jar -project_id="tranquil-rex-244713"<br />
                -device_type="RASPBERRY"<br />
                -client_type="MQTT"
 
-## Checking subscriptions manually
+## Reading the messages written by application
 Open Google Cloud Shell and type following command: <br />
-gcloud pubsub subscriptions pull --auto-ack --limit=25 projects/my-iot-project/subscriptions/my-subscription
+gcloud pubsub subscriptions pull --auto-ack --limit=25 projects/my-iot-project/subscriptions/my-subscription<br />
 You can use online Google Cloud Shell or download [Google Cloud SDK](https://cloud.google.com/sdk/install) and do it locally on your machine.
+
+## Remote code execution on a Raspberry pi with IntelliJ IDEA
+
+For remote code execution or debugging you can use Embedded Linux JVM pluggin.
+[There](https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95) you can find a tutorial how to setup IntelliJ IDEA.
+
+
