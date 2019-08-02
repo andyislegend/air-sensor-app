@@ -1,6 +1,6 @@
 # Corevalue air sensor application
 
-Corevalue R&D project. The main purpose of this program is air scanning. After information is acquired and analyzed application send it to the Google Cloud Iot Core.  
+Corevalue R&D project. The main purpose of this application is air scanning. After information is acquired and analyzed application send it to the Google Cloud Iot Core.  
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ Add rsa_cert.pem (public key) to the device with the Google Cloud Iot UI with ne
 * install [Maven](https://maven.apache.org/) on your computer or use embedded maven.
 * install [Google's root certificates](http://pki.google.com/roots.pem) on your device.
 * install java 8 on your device.
-* install [pi4j library](https://pi4j.com/1.2/install.html ) from on your Raspberry pi.
+* install [pi4j library](https://pi4j.com/1.2/install.html ) on your Raspberry pi.
 
 ## Deployment
 
