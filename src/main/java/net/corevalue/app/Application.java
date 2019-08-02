@@ -8,6 +8,8 @@ import picocli.CommandLine.Command;
 
 import javax.inject.Inject;
 
+//TODO: added dynamic sensor config on application start up
+//TODO: describe cli args with picocli
 @Command(name = "air-sensor-app", mixinStandardHelpOptions = true)
 public class Application implements Runnable {
 
