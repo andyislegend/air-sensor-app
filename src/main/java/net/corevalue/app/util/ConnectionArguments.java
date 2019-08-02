@@ -8,8 +8,8 @@ public class ConnectionArguments {
     @Option(names = "-registry_id", required = true)
     private String registryId;
 
-    @Option(names = "-gateway_id", required = true)
-    private String gatewayId;
+    @Option(names = "-device_id", required = true)
+    private String deviceId;
 
     @Option(names = "-private_key_file", required = true)
     private String privateKeyFile;

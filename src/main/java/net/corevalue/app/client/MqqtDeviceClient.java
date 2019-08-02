@@ -62,13 +62,13 @@ public class MqqtDeviceClient implements Client<Device, MqttMessage> {
     @Override
     public void initConnection(ConnectionArguments connectionArguments) throws Exception {
         this.connectionArguments = connectionArguments;
-        mqttTelemetryTopic = String.format("/devices/%s/events", connectionArguments.getGatewayId());
+        mqttTelemetryTopic = String.format("/devices/%s/events", connectionArguments.getDeviceId());
         String mqttServerAddress = String.format("ssl://%s:%s", connectionArguments.getHostName(),
                 connectionArguments.getPort());
         String mqttClientId = String.format("projects/%s/locations/%s/registries/%s/devices/%s",
                 connectionArguments.getProjectId(), connectionArguments.getCloudRegion(), connectionArguments.getRegistryId(),
-                connectionArguments.getGatewayId());
-        String commandTopic = String.format("/devices/%s/commands/#", connectionArguments.getGatewayId());
+                connectionArguments.getDeviceId());
+        String commandTopic = String.format("/devices/%s/commands/#", connectionArguments.getDeviceId());
         connectionOptions = getConnectionProperties(connectionArguments);
         client = new MqttClient(mqttServerAddress, mqttClientId, new MemoryPersistence());
         connect();

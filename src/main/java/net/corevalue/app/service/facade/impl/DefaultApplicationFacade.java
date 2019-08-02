@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-//TODO: add file logger
 //TODO: add reconnection logic
 @Singleton
 public class DefaultApplicationFacade implements ApplicationFacade {
