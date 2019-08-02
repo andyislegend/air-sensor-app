@@ -32,32 +32,40 @@ Add rsa_cert.pem (public key) to the device with the Google Cloud Iot UI with ne
 Build project with following command command: 
 * mvn clean package (or use embedded maven)
 * copy jar file and put it on the raspberry pi file system
-* run jar with next command:<br /> 
-sudo java -jar app_name.jar -project_id=<project_id><br />
-               -cloud_region=<cloud_region><br /> 
-               -registry_id=<registry_id><br />
-               -device_id=<device_id><br />
-               -host_name=<host_name><br />
-               -port=<port><br />
-               -private_key_file=<private_key_file><br />
-               -send_timeout=<send_timeout><br />
-               -device_type=<device_type><br />
-               -client_type=<client_type>
+* run jar with next command:
 
-* example:<br />
-sudo java -jar app_name.jar -project_id="tranquil-rex-244713"<br />
-               -cloud_region="europe-west1"<br />
-               -registry_id="air-sensor-app"<br />
-               -device_id="rasp-1"<br />
-               -host_name="mqtt.googleapis.com"<br /> 
-               -port="8883" -private_key_file="/home/pi/IdeaProjects/rsa_private_pkcs8"<br /> 
-               -send_timeout="5000"<br />
-               -device_type="RASPBERRY"<br />
+<pre>
+sudo java -jar app_name.jar -project_id=project_id
+               -cloud_region=cloud_region
+               -registry_id=registry_id
+               -device_id=device_id
+               -host_name=host_name
+               -port=port
+               -private_key_file=private_key_file
+               -send_timeout=send_timeout
+               -device_type=device_type
+               -client_type=client_type
+</pre>
+
+* example:
+
+<pre>
+sudo java -jar app_name.jar -project_id="tranquil-rex-244713"
+               -cloud_region="europe-west1"
+               -registry_id="air-sensor-app"
+               -device_id="rasp-1"
+               -host_name="mqtt.googleapis.com"
+               -port="8883" -private_key_file="/home/pi/IdeaProjects/rsa_private_pkcs8"
+               -send_timeout="5000"
+               -device_type="RASPBERRY"
                -client_type="MQTT"
+</pre>
 
 ## Reading the messages written by application
-Open Google Cloud Shell and type following command: <br />
-gcloud pubsub subscriptions pull --auto-ack --limit=25 projects/my-iot-project/subscriptions/my-subscription<br />
+Open Google Cloud Shell and type following command:
+<pre>
+gcloud pubsub subscriptions pull --auto-ack --limit=25 projects/my-iot-project/subscriptions/my-subscription
+</pre>
 You can use online Google Cloud Shell or download [Google Cloud SDK](https://cloud.google.com/sdk/install) and do it locally on your machine.
 
 ## Remote code execution on a Raspberry pi with IntelliJ IDEA
