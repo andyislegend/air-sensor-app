@@ -11,7 +11,7 @@ Corevalue R&D project. The main purpose of this application is air scanning. Aft
 1. Create subscription on that telemetry topic.
 1. Create device in the Google Cloud Iot UI.
 1. Use the [generate_keys.sh](https://github.com/GoogleCloudPlatform/java-docs-samples/blob/master/iot/api-client/generate_keys.sh) script to generate your signing keys:&nbsp;&nbsp;./generate_keys.sh<br /> 
-Add rsa_cert.pem (public key) to the device with the Google Cloud Iot UI with next key fowmat formant: RS256_X509 and put rsa_private_pkcs8 (private key) on the Raspberry pi file system.
+Add rsa_cert.pem (public key) to the device with the Google Cloud Iot UI with next key fowmat formant: RS256_X509 and put rsa_private_pkcs8 (private key) on the Raspberry Pi file system ([File transferring with Raspberry Pi section](#file-transferring-with-raspberry-pi)).
    
 
 ### Prerequisites
@@ -25,13 +25,14 @@ Add rsa_cert.pem (public key) to the device with the Google Cloud Iot UI with ne
 * install [Maven](https://maven.apache.org/) on your computer or use embedded maven.
 * install [Google's root certificates](http://pki.google.com/roots.pem) on your device.
 * install java 8 on your device.
-* install [pi4j library](https://pi4j.com/1.2/install.html ) on your Raspberry pi.
+* install [Pi4j library](https://pi4j.com/1.2/install.html ) on your Raspberry pi.
+* install [Putty](https://www.putty.org/).
 
 ## Deployment
 
 Build project with following command command: 
 * mvn clean package (or use embedded maven)
-* copy jar file and put it on the raspberry pi file system
+* copy jar file and put it on the Raspberry Pi file system ([File transferring with Raspberry Pi section](#file-transferring-with-raspberry-pi))
 * run jar with next command:
 
 <pre>
@@ -73,4 +74,9 @@ You can use online Google Cloud Shell or download [Google Cloud SDK](https://clo
 For remote code execution or debugging you can use Embedded Linux JVM pluggin.
 [There](https://medium.com/@menchukanton/setup-intellij-idea-for-remote-debugging-java-code-on-a-raspberry-pi-6e9df09dfb95) you can find a tutorial how to setup IntelliJ IDEA.
 
+## File transferring with Raspberry Pi
 
+To transfer your files to your Raspberry Pi you can use Putty. Open cmd or bash and input next command:
+<pre>
+pscp target_path userid@server.example.com:destination_path
+</pre>
