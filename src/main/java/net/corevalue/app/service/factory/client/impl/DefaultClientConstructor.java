@@ -9,10 +9,12 @@ import net.corevalue.app.util.ConnectionArguments;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Singleton
 public class DefaultClientConstructor implements ClientConstructor<Device, Object> {
 
     private Map<ClientType, ClientCreator<Device, Object>> creatorMap;
