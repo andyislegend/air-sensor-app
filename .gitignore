@@ -1,6 +1,7 @@
 Thumbs.db
 .DS_Store
 .gradle
+.mvn/wrapper/maven-wrapper.jar
 build/
 target/
 out/
@@ -11,3 +12,4 @@ out/
 .project
 .settings
 .classpath
+*.log
