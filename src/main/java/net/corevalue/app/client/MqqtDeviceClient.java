@@ -28,7 +28,7 @@ public class MqqtDeviceClient implements Client<Device, MqttMessage> {
 
     @Override
     public void sendMessage(MqttMessage message) throws Exception {
-        if (isTokenRefreshNeed()) {
+        if (isTokenExpired()) {
             if (isConnected()) {
                 disconnect();
             }
@@ -60,7 +60,7 @@ public class MqqtDeviceClient implements Client<Device, MqttMessage> {
 
 
     @Override
-    public void initConnection(ConnectionArguments connectionArguments) throws Exception {
+    public void initClient(ConnectionArguments connectionArguments) throws Exception {
         this.connectionArguments = connectionArguments;
         mqttTelemetryTopic = String.format("/devices/%s/events", connectionArguments.getDeviceId());
         String mqttServerAddress = String.format("ssl://%s:%s", connectionArguments.getHostName(),
@@ -76,7 +76,7 @@ public class MqqtDeviceClient implements Client<Device, MqttMessage> {
     }
 
     @Override
-    public boolean isTokenRefreshNeed() {
+    public boolean isTokenExpired() {
         long secsSinceRefresh = ((new DateTime()).getMillis() - tokenReceivingTime.getMillis()) / 1000;
         return secsSinceRefresh > (Cryptographer.TOKEN_EXPIRE_MINS * 60);
     }

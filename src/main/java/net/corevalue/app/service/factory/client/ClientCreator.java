@@ -8,7 +8,7 @@ public abstract class ClientCreator<T extends Device, S> {
 
     public Client<T, S> createClient(ConnectionArguments connectionArguments, T device) throws Exception {
         Client<T, S> client = createConcreteClient();
-        client.initConnection(connectionArguments);
+        client.initClient(connectionArguments);
         client.setCallBack(device);
         return client;
     }
