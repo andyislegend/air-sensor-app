@@ -68,6 +68,7 @@ Open Google Cloud Shell and type following command:
 gcloud pubsub subscriptions pull --auto-ack --limit=25 projects/my-iot-project/subscriptions/my-subscription
 </pre>
 You can use online Google Cloud Shell or download [Google Cloud SDK](https://cloud.google.com/sdk/install) and do it locally on your machine.
+![Alt text](Co2_Verdict.PNG "GCP example")
 
 ## Remote code execution on a Raspberry pi with IntelliJ IDEA
 
